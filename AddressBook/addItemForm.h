@@ -1,4 +1,5 @@
 #pragma once
+#include<string>
 
 namespace AddressBook {
 
@@ -8,7 +9,9 @@ namespace AddressBook {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
+	using namespace System::IO;
+	using namespace std;
+	using namespace MySql::Data::MySqlClient;
 	/// <summary>
 	/// Summary for addItemForm
 	/// </summary>
@@ -40,18 +43,33 @@ namespace AddressBook {
 	private: System::Windows::Forms::Label^  emailLabel;
 	private: System::Windows::Forms::Label^  addressLabel;
 	private: System::Windows::Forms::Label^  birthDateLabel;
-	private: System::Windows::Forms::TextBox^  nameTextBox;
-	private: System::Windows::Forms::TextBox^  birthTextBox;
-	private: System::Windows::Forms::TextBox^  addressTextBox;
-	private: System::Windows::Forms::TextBox^  mobileTextBox;
-	private: System::Windows::Forms::TextBox^  emailTextBox;
-	private: System::Windows::Forms::Button^  saveButton;
+	private: System::Windows::Forms::TextBox^  boxName;
+
+
+	private: System::Windows::Forms::TextBox^  boxAddress;
+	private: System::Windows::Forms::TextBox^  boxMobile;
+	private: System::Windows::Forms::TextBox^  boxEmail;
+
+
+
+
+
+	private: System::Windows::Forms::Button^  btnSave;
+	private: System::Windows::Forms::Button^  btnCancel;
+	private: System::Windows::Forms::Label^  lblMessage;
+	private: System::Windows::Forms::DateTimePicker^  boxBirthdate;
+	private: System::Windows::Forms::Label^  lblMsgMultiple;
+
+
+
+	private: System::ComponentModel::IContainer^  components;
+
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -65,12 +83,15 @@ namespace AddressBook {
 			this->emailLabel = (gcnew System::Windows::Forms::Label());
 			this->addressLabel = (gcnew System::Windows::Forms::Label());
 			this->birthDateLabel = (gcnew System::Windows::Forms::Label());
-			this->nameTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->birthTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->addressTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->mobileTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->emailTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->saveButton = (gcnew System::Windows::Forms::Button());
+			this->boxName = (gcnew System::Windows::Forms::TextBox());
+			this->boxAddress = (gcnew System::Windows::Forms::TextBox());
+			this->boxMobile = (gcnew System::Windows::Forms::TextBox());
+			this->boxEmail = (gcnew System::Windows::Forms::TextBox());
+			this->btnSave = (gcnew System::Windows::Forms::Button());
+			this->btnCancel = (gcnew System::Windows::Forms::Button());
+			this->lblMessage = (gcnew System::Windows::Forms::Label());
+			this->boxBirthdate = (gcnew System::Windows::Forms::DateTimePicker());
+			this->lblMsgMultiple = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// nameLabel
@@ -128,62 +149,97 @@ namespace AddressBook {
 			this->birthDateLabel->TabIndex = 4;
 			this->birthDateLabel->Text = L"Date of Birth";
 			// 
-			// nameTextBox
+			// boxName
 			// 
-			this->nameTextBox->Location = System::Drawing::Point(137, 24);
-			this->nameTextBox->Name = L"nameTextBox";
-			this->nameTextBox->Size = System::Drawing::Size(230, 20);
-			this->nameTextBox->TabIndex = 5;
+			this->boxName->Location = System::Drawing::Point(137, 24);
+			this->boxName->Name = L"boxName";
+			this->boxName->Size = System::Drawing::Size(230, 20);
+			this->boxName->TabIndex = 5;
 			// 
-			// birthTextBox
+			// boxAddress
 			// 
-			this->birthTextBox->Location = System::Drawing::Point(137, 64);
-			this->birthTextBox->Name = L"birthTextBox";
-			this->birthTextBox->Size = System::Drawing::Size(230, 20);
-			this->birthTextBox->TabIndex = 6;
+			this->boxAddress->Location = System::Drawing::Point(137, 100);
+			this->boxAddress->Multiline = true;
+			this->boxAddress->Name = L"boxAddress";
+			this->boxAddress->Size = System::Drawing::Size(230, 51);
+			this->boxAddress->TabIndex = 7;
 			// 
-			// addressTextBox
+			// boxMobile
 			// 
-			this->addressTextBox->Location = System::Drawing::Point(137, 100);
-			this->addressTextBox->Multiline = true;
-			this->addressTextBox->Name = L"addressTextBox";
-			this->addressTextBox->Size = System::Drawing::Size(230, 51);
-			this->addressTextBox->TabIndex = 7;
+			this->boxMobile->Location = System::Drawing::Point(137, 163);
+			this->boxMobile->Name = L"boxMobile";
+			this->boxMobile->Size = System::Drawing::Size(230, 20);
+			this->boxMobile->TabIndex = 8;
 			// 
-			// mobileTextBox
+			// boxEmail
 			// 
-			this->mobileTextBox->Location = System::Drawing::Point(137, 163);
-			this->mobileTextBox->Name = L"mobileTextBox";
-			this->mobileTextBox->Size = System::Drawing::Size(230, 20);
-			this->mobileTextBox->TabIndex = 8;
+			this->boxEmail->Location = System::Drawing::Point(137, 200);
+			this->boxEmail->Name = L"boxEmail";
+			this->boxEmail->Size = System::Drawing::Size(230, 20);
+			this->boxEmail->TabIndex = 9;
 			// 
-			// emailTextBox
+			// btnSave
 			// 
-			this->emailTextBox->Location = System::Drawing::Point(137, 200);
-			this->emailTextBox->Name = L"emailTextBox";
-			this->emailTextBox->Size = System::Drawing::Size(230, 20);
-			this->emailTextBox->TabIndex = 9;
+			this->btnSave->Location = System::Drawing::Point(137, 281);
+			this->btnSave->Name = L"btnSave";
+			this->btnSave->Size = System::Drawing::Size(75, 23);
+			this->btnSave->TabIndex = 10;
+			this->btnSave->Text = L"Save";
+			this->btnSave->UseVisualStyleBackColor = true;
+			this->btnSave->Click += gcnew System::EventHandler(this, &addItemForm::btnSave_Click);
 			// 
-			// saveButton
+			// btnCancel
 			// 
-			this->saveButton->Location = System::Drawing::Point(174, 226);
-			this->saveButton->Name = L"saveButton";
-			this->saveButton->Size = System::Drawing::Size(75, 23);
-			this->saveButton->TabIndex = 10;
-			this->saveButton->Text = L"Save";
-			this->saveButton->UseVisualStyleBackColor = true;
+			this->btnCancel->Location = System::Drawing::Point(292, 281);
+			this->btnCancel->Name = L"btnCancel";
+			this->btnCancel->Size = System::Drawing::Size(75, 23);
+			this->btnCancel->TabIndex = 11;
+			this->btnCancel->Text = L"Cancel";
+			this->btnCancel->UseVisualStyleBackColor = true;
+			this->btnCancel->Click += gcnew System::EventHandler(this, &addItemForm::btnCancel_Click);
+			// 
+			// lblMessage
+			// 
+			this->lblMessage->AutoSize = true;
+			this->lblMessage->Location = System::Drawing::Point(137, 227);
+			this->lblMessage->Name = L"lblMessage";
+			this->lblMessage->Size = System::Drawing::Size(192, 13);
+			this->lblMessage->TabIndex = 12;
+			this->lblMessage->Text = L"Please, Fill Name and Date of Birth Box";
+			// 
+			// boxBirthdate
+			// 
+			this->boxBirthdate->Location = System::Drawing::Point(140, 64);
+			this->boxBirthdate->Name = L"boxBirthdate";
+			this->boxBirthdate->Size = System::Drawing::Size(227, 20);
+			this->boxBirthdate->TabIndex = 13;
+			// 
+			// lblMsgMultiple
+			// 
+			this->lblMsgMultiple->AutoSize = true;
+			this->lblMsgMultiple->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lblMsgMultiple->ForeColor = System::Drawing::Color::Crimson;
+			this->lblMsgMultiple->Location = System::Drawing::Point(32, 250);
+			this->lblMsgMultiple->Name = L"lblMsgMultiple";
+			this->lblMsgMultiple->Size = System::Drawing::Size(341, 13);
+			this->lblMsgMultiple->TabIndex = 14;
+			this->lblMsgMultiple->Text = L"If multiple mobile no and emial, put a comma between them";
 			// 
 			// addItemForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(400, 261);
-			this->Controls->Add(this->saveButton);
-			this->Controls->Add(this->emailTextBox);
-			this->Controls->Add(this->mobileTextBox);
-			this->Controls->Add(this->addressTextBox);
-			this->Controls->Add(this->birthTextBox);
-			this->Controls->Add(this->nameTextBox);
+			this->ClientSize = System::Drawing::Size(385, 316);
+			this->Controls->Add(this->lblMsgMultiple);
+			this->Controls->Add(this->boxBirthdate);
+			this->Controls->Add(this->lblMessage);
+			this->Controls->Add(this->btnCancel);
+			this->Controls->Add(this->btnSave);
+			this->Controls->Add(this->boxEmail);
+			this->Controls->Add(this->boxMobile);
+			this->Controls->Add(this->boxAddress);
+			this->Controls->Add(this->boxName);
 			this->Controls->Add(this->birthDateLabel);
 			this->Controls->Add(this->addressLabel);
 			this->Controls->Add(this->emailLabel);
@@ -191,10 +247,41 @@ namespace AddressBook {
 			this->Controls->Add(this->nameLabel);
 			this->Name = L"addItemForm";
 			this->Text = L"addItemForm";
+			this->Load += gcnew System::EventHandler(this, &addItemForm::addItemForm_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	};
+	private: System::Void btnSave_Click(System::Object^  sender, System::EventArgs^  e) {
+
+				 
+				 
+				 if (this->boxName->Text != "" && this->boxBirthdate->Text != "")
+				 {
+
+					 StreamWriter^ fileWritter = File::AppendText("data.txt");
+					 String ^ textToWrite = boxName->Text + ";" + boxBirthdate->Text + ";" + boxAddress->Text + ";" + boxMobile->Text + ";" + boxEmail->Text + ";";
+
+					 fileWritter->WriteLine(textToWrite);
+					 fileWritter->Close();
+					 this->Close();
+				 }
+				 else
+				 {
+					 lblMessage->Show();
+				 }
+
+				 
+
+				 
+	}
+private: System::Void btnCancel_Click(System::Object^  sender, System::EventArgs^  e) {
+
+			 this->Close();
+}
+private: System::Void addItemForm_Load(System::Object^  sender, System::EventArgs^  e) {
+			 lblMessage->Hide();
+}
+};
 }

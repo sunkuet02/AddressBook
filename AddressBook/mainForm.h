@@ -44,9 +44,13 @@ namespace AddressBook {
 	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  helpToolStripMenuItem;
 	private: System::Windows::Forms::SplitContainer^  splitContainer1;
-	private: System::Windows::Forms::ListView^  showListName;
+
 	private: System::Windows::Forms::TextBox^  searchTextBox;
 	private: System::Windows::Forms::TextBox^  tempTextBox;
+	private: System::Windows::Forms::ListBox^  listBoxName;
+
+
+
 
 
 
@@ -74,8 +78,8 @@ namespace AddressBook {
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			this->listBoxName = (gcnew System::Windows::Forms::ListBox());
 			this->searchTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->showListName = (gcnew System::Windows::Forms::ListView());
 			this->tempTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->BeginInit();
@@ -109,14 +113,14 @@ namespace AddressBook {
 			// insertItemToolStripMenuItem
 			// 
 			this->insertItemToolStripMenuItem->Name = L"insertItemToolStripMenuItem";
-			this->insertItemToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->insertItemToolStripMenuItem->Size = System::Drawing::Size(130, 22);
 			this->insertItemToolStripMenuItem->Text = L"Insert Item";
 			this->insertItemToolStripMenuItem->Click += gcnew System::EventHandler(this, &mainForm::insertItemToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
-			this->exitToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->exitToolStripMenuItem->Size = System::Drawing::Size(130, 22);
 			this->exitToolStripMenuItem->Text = L"Exit";
 			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &mainForm::exitToolStripMenuItem_Click);
 			// 
@@ -146,42 +150,37 @@ namespace AddressBook {
 			// 
 			// splitContainer1.Panel1
 			// 
+			this->splitContainer1->Panel1->Controls->Add(this->listBoxName);
 			this->splitContainer1->Panel1->Controls->Add(this->searchTextBox);
-			this->splitContainer1->Panel1->Controls->Add(this->showListName);
 			this->splitContainer1->Panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &mainForm::splitContainer1_Panel1_Paint);
 			// 
 			// splitContainer1.Panel2
 			// 
 			this->splitContainer1->Panel2->Controls->Add(this->tempTextBox);
 			this->splitContainer1->Size = System::Drawing::Size(455, 299);
-			this->splitContainer1->SplitterDistance = 242;
+			this->splitContainer1->SplitterDistance = 211;
 			this->splitContainer1->TabIndex = 1;
+			// 
+			// listBoxName
+			// 
+			this->listBoxName->FormattingEnabled = true;
+			this->listBoxName->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"sun", L"tamanna", L"tasnim", L"Abdulla" });
+			this->listBoxName->Location = System::Drawing::Point(3, 30);
+			this->listBoxName->Name = L"listBoxName";
+			this->listBoxName->Size = System::Drawing::Size(205, 264);
+			this->listBoxName->TabIndex = 1;
 			// 
 			// searchTextBox
 			// 
 			this->searchTextBox->Location = System::Drawing::Point(3, 4);
 			this->searchTextBox->Name = L"searchTextBox";
-			this->searchTextBox->Size = System::Drawing::Size(236, 20);
+			this->searchTextBox->Size = System::Drawing::Size(205, 20);
 			this->searchTextBox->TabIndex = 2;
 			this->searchTextBox->TextChanged += gcnew System::EventHandler(this, &mainForm::searchTextBox_TextChanged);
 			// 
-			// showListName
-			// 
-			this->showListName->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->showListName->Location = System::Drawing::Point(3, 30);
-			this->showListName->MultiSelect = false;
-			this->showListName->Name = L"showListName";
-			this->showListName->Size = System::Drawing::Size(236, 257);
-			this->showListName->Sorting = System::Windows::Forms::SortOrder::Ascending;
-			this->showListName->TabIndex = 1;
-			this->showListName->UseCompatibleStateImageBehavior = false;
-			this->showListName->View = System::Windows::Forms::View::List;
-			this->showListName->SelectedIndexChanged += gcnew System::EventHandler(this, &mainForm::showListName_SelectedIndexChanged);
-			// 
 			// tempTextBox
 			// 
-			this->tempTextBox->Location = System::Drawing::Point(38, 100);
+			this->tempTextBox->Location = System::Drawing::Point(36, 4);
 			this->tempTextBox->Name = L"tempTextBox";
 			this->tempTextBox->Size = System::Drawing::Size(100, 20);
 			this->tempTextBox->TabIndex = 0;
@@ -218,22 +217,11 @@ namespace AddressBook {
 	private: System::Void searchTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
 	}
-	private: System::Void showListName_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
-				 
-				 System::Collections::IEnumerator^ myEnum = this->showListName->SelectedItems->GetEnumerator();
-				 
-				 while (myEnum->MoveNext()){
 
-					 ListViewItem^ item = safe_cast<ListViewItem^>(myEnum->Current);
-					 tempTextBox->Text = safe_cast<ListViewItem^>(myEnum->Current)->Text;
-				 }
-				 
-				  
-	}
 private: System::Void insertItemToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 addItemForm^ addItemform = gcnew addItemForm();
 			 addItemform->Show();
-			 this->Hide();
 }
+
 };
 }
