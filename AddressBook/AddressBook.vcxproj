@@ -52,6 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -84,10 +85,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="addItemForm.cpp" />
+    <ClCompile Include="helpForm.cpp" />
     <ClCompile Include="mainForm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="addItemForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="helpForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="mainForm.h">
@@ -97,6 +102,9 @@
   <ItemGroup>
     <EmbeddedResource Include="addItemForm.resx">
       <DependentUpon>addItemForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="helpForm.resx">
+      <DependentUpon>helpForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="mainForm.resx">
       <DependentUpon>mainForm.h</DependentUpon>

@@ -255,8 +255,32 @@ namespace AddressBook {
 #pragma endregion
 	private: System::Void btnSave_Click(System::Object^  sender, System::EventArgs^  e) {
 
+				 String ^ conString = L"datasource = localhost; port = 3306;username=root; password=1107002";
+				 MySqlConnection^ conn = gcnew MySqlConnection(conString);
+				 MySqlCommand^ cmd = gcnew MySqlCommand("insert into database.personinfo(name,birthdate,address,mobile,email) values('" + this->boxName->Text + "','" + this->boxBirthdate->Text + "','" + this->boxAddress->Text + "','" + this->boxMobile->Text + "','" + this->boxEmail->Text + "');", conn);
 				 
-				 
+				 MySqlDataReader^ myReader;
+
+				 try
+				 {
+					 conn->Open();
+					 myReader = cmd->ExecuteReader();;
+					 while (myReader->Read())
+					 {
+
+					 }
+					 conn->Close();
+
+
+				 }
+				 catch (Exception ^ ex)
+				 {
+					 MessageBox::Show("Fail to insert item");
+				 }
+				 Application::Restart();
+				 this->Close();
+
+				 /*
 				 if (this->boxName->Text != "" && this->boxBirthdate->Text != "")
 				 {
 
@@ -272,7 +296,7 @@ namespace AddressBook {
 					 lblMessage->Show();
 				 }
 
-				 
+				 */
 
 				 
 	}
