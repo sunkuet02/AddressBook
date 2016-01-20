@@ -158,6 +158,7 @@ namespace AddressBook {
 			this->viewAllToolStripMenuItem->Name = L"viewAllToolStripMenuItem";
 			this->viewAllToolStripMenuItem->Size = System::Drawing::Size(64, 20);
 			this->viewAllToolStripMenuItem->Text = L"View All ";
+			this->viewAllToolStripMenuItem->Click += gcnew System::EventHandler(this, &mainForm::viewAllToolStripMenuItem_Click);
 			// 
 			// aboutToolStripMenuItem
 			// 
@@ -442,6 +443,35 @@ private: System::Void helpToolStripMenuItem_Click(System::Object^  sender, Syste
 			 
 			 helpForm^ hForm = gcnew helpForm();
 			 hForm->Show();
+}
+private: System::Void viewAllToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
+			 
+			 searchTextBox->Clear();
+
+			 String ^ conString = L"datasource = localhost; port = 3306;username=root; password=1107002";
+			 MySqlConnection^ conn = gcnew MySqlConnection(conString);
+			 MySqlCommand^ cmd = gcnew MySqlCommand("select * from database.personinfo;", conn);
+
+			 MySqlDataReader^ myReader;
+
+			 try
+			 {
+				 listBoxName->Items->Clear();
+
+				 conn->Open();
+				 myReader = cmd->ExecuteReader();;
+				 while (myReader->Read())
+				 {
+					 String^ name = myReader->GetString("name");
+					 listBoxName->Items->Add(name);
+				 }
+
+			 }
+			 catch (Exception ^ ex)
+			 {
+				 MessageBox::Show(ex->Message);
+			 }
 }
 };
 }
